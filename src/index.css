@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  @apply bg-gray-50;
+  background-image: url('https://antimatter.vn/wp-content/uploads/2023/03/hinh-anh-anime-cute-co-gai-hoang-hot-dang-yeu.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg transition-all duration-200 font-medium;
+  }
+  
+  .btn-primary {
+    @apply bg-indigo-600/90 text-white hover:bg-indigo-700 
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+           backdrop-blur-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-purple-600/90 text-white hover:bg-purple-700
+           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2
+           backdrop-blur-sm;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-indigo-500
+           bg-white/90 shadow-sm backdrop-blur-sm;
+  }
+
+  .card {
+    @apply bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300
+           hover:shadow-xl border border-white/20;
+  }
+
+  .sidebar {
+    @apply fixed top-0 right-0 h-full w-80 bg-white/95 backdrop-blur-sm shadow-2xl
+           transform transition-transform duration-300 ease-in-out z-50
+           border-l border-white/20;
+  }
+
+  .sidebar-closed {
+    @apply translate-x-full;
+  }
+
+  .sidebar-open {
+    @apply translate-x-0;
+  }
+}
+
+.glass-morphism {
+  @apply bg-white/90 backdrop-blur-sm border border-white/20;
+}

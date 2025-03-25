@@ -1,20 +1,12 @@
 import axios from 'axios';
-import OpenAI from 'openai';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { DictionaryResponse, ChatMessage, TranslationRequest } from './types';
 
-const DICTIONARY_API = 'https://api.dictionaryapi.dev/api/v2/entries/en';
-
-const openai = new OpenAI({
-  apiKey: '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',
-  dangerouslyAllowBrowser: true
-});
-
-const genAI = new GoogleGenerativeAI('AIzaSyBxZ6mFzF3uShotOIJhPGge_CO-SaTKtHc');
+// In production, this will be empty since we're serving from the same origin
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000/api' : '/api';
 
 export const getDictionaryDefinition = async (word: string): Promise<DictionaryResponse[]> => {
   try {
-    const response = await axios.get(`${DICTIONARY_API}/${word}`);
+    const response = await axios.get(`${API_BASE_URL}/dictionary/${word}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
@@ -26,17 +18,8 @@ export const getDictionaryDefinition = async (word: string): Promise<DictionaryR
 
 export const getAIResponse = async (messages: ChatMessage[]): Promise<string> => {
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: messages.map(msg => ({
-        role: msg.role,
-        content: msg.content
-      })),
-      temperature: 0.9,
-      max_tokens: 150,
-    });
-
-    return completion.choices[0].message.content || 'No response from AI';
+    const response = await axios.post(`${API_BASE_URL}/chat`, { messages });
+    return response.data.content;
   } catch (error) {
     console.error('AI API Error:', error);
     throw new Error('Failed to get AI response');
@@ -45,13 +28,12 @@ export const getAIResponse = async (messages: ChatMessage[]): Promise<string> =>
 
 export const translateText = async ({ text, fromLang, toLang }: TranslationRequest): Promise<string> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-    
-    const prompt = `Translate the following text from ${fromLang} to ${toLang}. Only provide the direct translation without any additional text or explanations:\n\n${text}`;
-    
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text().trim();
+    const response = await axios.post(`${API_BASE_URL}/translate`, {
+      text,
+      fromLang,
+      toLang
+    });
+    return response.data.translation;
   } catch (error) {
     console.error('Translation Error:', error);
     throw new Error('Failed to translate text');

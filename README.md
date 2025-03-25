@@ -22,8 +22,8 @@ A beautiful, production-ready React application built with Vite, TypeScript, Tai
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/yourusername/your-repo-name.git](https://github.com/LeVietDuongg/dictionary.git
+   
    ```
 
 2. Install dependencies:
